@@ -3,13 +3,13 @@
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
 .utmp/
-/[Ll]ibrary/
+[Ll]ibrary/
 /[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Uu]ser[Ss]ettings/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
 *.log
 
 # MemoryCaptures can get excessive in size.
@@ -73,3 +73,7 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+ShooterFPS/Temp/FSTimeGet-a1baf5b0ef73d2e46803cc9df3ce03e4
+ShooterFPS/Temp/FSTimeGet-f0e0fbb72dbdf55449892c16a60b3883
+ShooterFPS/Temp/UnityLockfile
+ShooterFPS/Temp/FSTimeGet-075174c6a67fd39488ec17f2ff3bcb8e
