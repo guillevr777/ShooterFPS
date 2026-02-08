@@ -1,23 +1,56 @@
 using UnityEngine;
-using TMPro; // Necesario para usar TextMeshPro
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public TextMeshProUGUI counterText; // Arrastra aquí tu texto de la UI
+    public GameObject enemyPrefab; // Arrastra aquï¿½ el prefab de tu enemigo
+    public Transform[] spawnPoints; // Se llenarï¿½ automï¿½ticamente
+    public TextMeshProUGUI counterText;
+
+    private int waveNumber = 0;
+
+    void Start()
+    {
+        // Busca todos los objetos con el tag Respawn para saber dï¿½nde crear enemigos
+        GameObject[] gos = GameObject.FindGameObjectsWithTag("Respawn");
+        spawnPoints = new Transform[gos.Length];
+        for (int i = 0; i < gos.Length; i++) spawnPoints[i] = gos[i].transform;
+
+        NextWave();
+    }
 
     void Update()
     {
-        // Busca cuántos objetos tienen el Tag "Enemy" en la escena
         int enemiesLeft = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        counterText.text = "Oleada: " + waveNumber + " | Enemigos: " + enemiesLeft;
 
-        if (enemiesLeft > 0)
+        if (enemiesLeft <= 0)
         {
-            counterText.text = "Enemigos restantes: " + enemiesLeft;
+            NextWave();
         }
-        else
+    }
+
+    void NextWave()
+    {
+        waveNumber++;
+        for (int i = 0; i < waveNumber; i++)
         {
-            counterText.text = "¡ZONA DESPEJADA! Victoria.";
-            // Aquí podrías añadir lógica para cargar el siguiente nivel
+            Transform sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
+
+            // Creamos el enemigo
+            GameObject newEnemy = Instantiate(enemyPrefab, sp.position, sp.rotation);
+
+            // REFUERZO: Ajustar al NavMesh inmediatamente
+            UnityEngine.AI.NavMeshAgent agent = newEnemy.GetComponent<UnityEngine.AI.NavMeshAgent>();
+            if (agent != null)
+            {
+                UnityEngine.AI.NavMeshHit hit;
+                // Busca el punto de NavMesh mï¿½s cercano en un radio de 2 metros
+                if (UnityEngine.AI.NavMesh.SamplePosition(sp.position, out hit, 2.0f, UnityEngine.AI.NavMesh.AllAreas))
+                {
+                    agent.Warp(hit.position); // "Teletransporta" al enemigo a la superficie exacta
+                }
+            }
         }
     }
 }
