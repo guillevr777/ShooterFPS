@@ -1,18 +1,25 @@
-using UnityEngine.SceneManagement; // Imprescindible para cambiar de escena
+using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.InputSystem;  // <- Cambia este using
 
 public class VolverAJugar : MonoBehaviour
 {
-    // Esta función la llamará el botón al hacer clic
+    void Update()
+    {
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)  // <- Y esta línea
+        {
+            Jugar();
+        }
+    }
+
     public void Jugar()
     {
-        // Cargamos la escena del nivel principal
         SceneManager.LoadScene("SampleScene");
     }
 
     public void Salir()
     {
         Debug.Log("Saliendo del juego...");
-        Application.Quit(); // Esto solo funciona en el juego ya exportado (.exe)
+        Application.Quit();
     }
 }
