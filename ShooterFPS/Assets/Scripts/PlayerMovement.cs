@@ -6,8 +6,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ajustes")]
     public float walkSpeed = 5f;
     public float runSpeed = 9f;
-    public float sensitivity = 0.1f; // Sensibilidad mucho más baja
-
+    public float sensitivity = 0.001f; // Prueba con 0.02 o 0.01
     private CharacterController controller;
     private Vector2 moveInput;
     private Vector2 lookInput;
@@ -40,9 +39,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // 1. Rotación (Mirar)
-        float mouseX = lookInput.x * sensitivity;
-        float mouseY = lookInput.y * sensitivity;
+        float mouseX = lookInput.x * sensitivity * Time.deltaTime * 100f;
+        float mouseY = lookInput.y * sensitivity * Time.deltaTime * 100f;
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
